@@ -4,7 +4,7 @@ const buttonOneHTML = document.getElementById("buttonOne");
 let firstNumber;
 buttonOneHTML.addEventListener("click", () => {
   // - SOMETHING TO HAPPEN WHEN CLICKED
-  // alert("THIS HAS BEEN CLICKED");  
+  alert("THIS HAS BEEN CLICKED");  
   // - STORE IT -> VARIABLE
   firstNumber = 1;
 })
@@ -28,3 +28,4 @@ buttonEqualsHTM.addEventListener("click", () => {
   equalsButton = '=';
 })
 // DISPLAY RESULT
+console.log()

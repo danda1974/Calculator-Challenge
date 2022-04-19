@@ -10,28 +10,28 @@
 <body>
   <div class="calculator-grid">
     <div class="output">
-      <div class="previous-operand"></div>
-      <div class="current-operand"></div>
+      <div class="previous-operand">12345</div>
+      <div class="current-operand">67890</div>
     </div>
-  <button class="grey">C</button>
-  <button class="grey">±</button>
-  <button class="grey">%</button>
-  <button class="orange">÷</button>
-  <button>7</button>
-  <button>8</button>
-  <button>9</button>
-  <button class="orange">x</button>
-  <button>4</button>
-  <button>5</button>
-  <button>6</button>
-  <button class="orange">-</button>
-  <button id="buttonOne">1</button>
-  <button>2</button>
-  <button>3</button>
-  <button id="buttonPlus" class="orange">+</button>
-  <button class="span-two">0</button>
-  <button>.</button>
-  <button class="orange">=</button>    
+  <button data-clear class="grey">C</button>
+  <button data-operation class="grey">±</button>
+  <button data-operation class="grey">%</button>
+  <button data-operation class="orange">÷</button>
+  <button data-number>7</button>
+  <button data-number>8</button>
+  <button data-number>9</button>
+  <button data-operation class="orange">x</button>
+  <button data-number>4</button>
+  <button data-number>5</button>
+  <button data-number>6</button>
+  <button data-operation class="orange">-</button>
+  <button data-number>1</button>
+  <button data-number>2</button>
+  <button data-number>3</button>
+  <button data-operation class="orange">+</button>
+  <button data-number class="span-two">0</button>
+  <button data-number>.</button>
+  <button id="buttonEquals" class="orange">=</button>    
   <br>
   </div>
   <script src="./index.js"></script>
