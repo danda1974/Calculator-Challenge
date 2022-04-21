@@ -54,7 +54,11 @@ class Calculator {
   }
 
   chooseOperation(operation) {
-
+    this.operation = operation
+    this.previousOperand = this.currentOperand
+    // hiermit speichere ich die aktuelle Eingabe und schiebe sie in die previous und dann leere ich die aktuelle Eingabe wieder mit:
+    this.currentOperand = ''
+    // jetzt muss ich das im updateDisplay updaten damit es dort in die obere Zeile kommt (this.previousOperandTextElement.innerText = this.previousOperand)
   }
 
   compute() {
@@ -63,9 +67,11 @@ class Calculator {
 
   updateDisplay() {
     this.currentOperandTextElement.innerText = this.currentOperand
+    this.previousOperandTextElement.innerText = this.previousOperand
   }
 }
 
+// als erstes definiere ich die button
 const numberButtons = document.querySelectorAll('[data-number]')
 const operationButtons = document.querySelectorAll('[data-operation]')
 
@@ -77,7 +83,7 @@ const currentOperandTextElement = document.querySelector('[data-current-operand]
 
 const calculator = new Calculator(previousOperandTextElement, currentOperandTextElement)
 
-// add.EventListener for Buttons (forEach): numbers, operations, clear and equals
+// danach: add.EventListener for Buttons (forEach): numbers, operations, clear and equals
 numberButtons.forEach(button => {
   button.addEventListener('click', () => {
     calculator.appendNumber(button.innerText)
