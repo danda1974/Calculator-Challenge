@@ -29,6 +29,42 @@
 // })
 // // DISPLAY RESULT
 // console.log()...
+class Calculator {
+  constructor(previousOperandTextElement, currentOperandTextElement) {
+    this.previousOperandTextElement = previousOperandTextElement
+    this.currentOperandTextElement = currentOperandTextElement
+    this.clear()
+  }
+  
+  clear() {
+    this.currentOperand = ''
+    this.previousOperand = ''
+    this.operation = undefined
+  }
+  
+  delete() {
+
+  }
+  
+  appendNumber(number) {
+    if (number === '.' && this.currentOperand.includes('.')) return
+    // damit verhindere ich, dass ich mehrere Punkte machen kann
+    this.currentOperand = this.currentOperand.toString() + number.toString()
+    // toString: muss ich so machen, damit die Nummern nicht addiert werden, sondern hintereinander geschrieben werden
+  }
+
+  chooseOperation(operation) {
+
+  }
+
+  compute() {
+
+  }
+
+  updateDisplay() {
+    this.currentOperandTextElement.innerText = this.currentOperand
+  }
+}
 
 const numberButtons = document.querySelectorAll('[data-number]')
 const operationButtons = document.querySelectorAll('[data-operation]')
@@ -39,11 +75,29 @@ const equalsButton = document.querySelector('[data-equals]')
 const previousOperandTextElement = document.querySelector('[data-previous-operand]')
 const currentOperandTextElement = document.querySelector('[data-current-operand]')
 
+const calculator = new Calculator(previousOperandTextElement, currentOperandTextElement)
+
 // add.EventListener for Buttons (forEach): numbers, operations, clear and equals
 numberButtons.forEach(button => {
   button.addEventListener('click', () => {
-    const number = button.innerHTML
-    console.log(number)
-    
+    calculator.appendNumber(button.innerText)
+    calculator.updateDisplay()    
   })
+})
+
+operationButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    calculator.chooseOperation(button.innerText)
+    calculator.updateDisplay()
+  })
+})
+
+clearButton.addEventListener('click', button => {
+  calculator.clear()
+  calculator.updateDisplay()
+})
+
+equalsButton.addEventListener('click', button => {
+  calculator.compute()
+  calculator.updateDisplay()
 })
