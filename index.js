@@ -45,6 +45,7 @@ class Calculator {
   appendNumber(number) {
     if (number === "." && this.currentOperand.includes(".")) return;
     // damit verhindere ich, dass ich mehr als einen Punkt machen kann
+    if (this.currentOperandTextElement.innerText.length >= 13) return;
     this.currentOperand = this.currentOperand.toString() + number.toString();
     // toString: muss ich so machen, damit die Nummern nicht addiert werden, sondern hintereinander geschrieben werden
   }
@@ -61,6 +62,17 @@ class Calculator {
     // jetzt muss ich das im updateDisplay updaten damit es dort in die obere Zeile kommt (this.previousOperandTextElement.innerText = this.previousOperand)
   }
 
+  chooseSpecialOperation(specialOperation) {
+    switch (specialOperation) {
+      case "±":
+        this.currentOperand = this.currentOperand * -1;
+        break;
+      case "%":
+        this.currentOperand = this.currentOperand / 100;
+        break;
+    }
+  }
+
   compute() {
     let computation;
     const prev = parseFloat(this.previousOperand);
@@ -73,17 +85,11 @@ class Calculator {
       case "-":
         computation = prev - current;
         break;
-      case "*":
+      case "x":
         computation = prev * current;
         break;
       case "÷":
         computation = prev / current;
-        break;
-      case "±":
-        computation = "-" + current;
-        break;
-      case "%":
-        computation = current / 100;
         break;
       default:
         return;
@@ -133,8 +139,8 @@ const operationButtons = document.querySelectorAll("[data-operation]");
 
 const clearButton = document.querySelector("[data-clear]");
 const equalsButton = document.querySelector("[data-equals]");
-const plusMinusButton = document.querySelector("[data-plusMinus]");
-const percentButton = document.querySelector("[data-percent]");
+
+const specialButtons = document.querySelectorAll("[data-special]");
 
 const previousOperandTextElement = document.querySelector(
   "[data-previous-operand]"
@@ -173,12 +179,9 @@ equalsButton.addEventListener("click", (button) => {
   calculator.updateDisplay();
 });
 
-plusMinusButton.addEventListener("click", (button) => {
-  calculator.compute();
-  calculator.updateDisplay();
-});
-
-percentButton.addEventListener("click", (button) => {
-  calculator.compute();
-  calculator.updateDisplay();
+specialButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    calculator.chooseSpecialOperation(button.innerText);
+    calculator.updateDisplay();
+  });
 });
