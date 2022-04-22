@@ -1,10 +1,10 @@
 // // PRESS ONE NUMBER
-// // - GET THE NUMBER? 
+// // - GET THE NUMBER?
 // const buttonOneHTML = document.getElementById("buttonOne");
 // let firstNumber;
 // buttonOneHTML.addEventListener("click", () => {
 //   // - SOMETHING TO HAPPEN WHEN CLICKED
-//   alert("THIS HAS BEEN CLICKED");  
+//   alert("THIS HAS BEEN CLICKED");
 //   // - STORE IT -> VARIABLE
 //   firstNumber = 1;
 // })
@@ -31,79 +31,86 @@
 // console.log()...
 class Calculator {
   constructor(previousOperandTextElement, currentOperandTextElement) {
-    this.previousOperandTextElement = previousOperandTextElement
-    this.currentOperandTextElement = currentOperandTextElement
-    this.clear()
+    this.previousOperandTextElement = previousOperandTextElement;
+    this.currentOperandTextElement = currentOperandTextElement;
+    this.clear();
   }
-  
-  clear() {
-    this.currentOperand = ''
-    this.previousOperand = ''
-    this.operation = undefined
-  }
-  
-  delete() {
 
+  clear() {
+    this.currentOperand = "";
+    this.previousOperand = "";
+    this.operation = undefined;
   }
-  
+
+  delete() {}
+
   appendNumber(number) {
-    if (number === '.' && this.currentOperand.includes('.')) return
-    // damit verhindere ich, dass ich mehrere Punkte machen kann
-    this.currentOperand = this.currentOperand.toString() + number.toString()
+    if (number === "." && this.currentOperand.includes(".")) return;
+    // damit verhindere ich, dass ich mehr als einen Punkt machen kann
+    this.currentOperand = this.currentOperand.toString() + number.toString();
     // toString: muss ich so machen, damit die Nummern nicht addiert werden, sondern hintereinander geschrieben werden
   }
 
   chooseOperation(operation) {
-    this.operation = operation
-    this.previousOperand = this.currentOperand
+    if (this.currentOperand === "") return; // falls die Eingabe leer ist, geht es nicht weiter
+    if (this.previousOperand !== "") {
+      this.compute(); // wenn der vorherige nicht leer ist und unten was steht, dann soll es gerechnet werden und danach erst weiter
+    } // zum updaten alle Variablen
+    this.operation = operation;
+    this.previousOperand = this.currentOperand;
     // hiermit speichere ich die aktuelle Eingabe und schiebe sie in die previous und dann leere ich die aktuelle Eingabe wieder mit:
-    this.currentOperand = ''
+    this.currentOperand = "";
     // jetzt muss ich das im updateDisplay updaten damit es dort in die obere Zeile kommt (this.previousOperandTextElement.innerText = this.previousOperand)
   }
 
-  compute() {
-
-  }
+  compute() {}
 
   updateDisplay() {
-    this.currentOperandTextElement.innerText = this.currentOperand
-    this.previousOperandTextElement.innerText = this.previousOperand
+    this.currentOperandTextElement.innerText = this.currentOperand;
+    this.previousOperandTextElement.innerText = this.previousOperand;
   }
 }
 
 // als erstes definiere ich die button
-const numberButtons = document.querySelectorAll('[data-number]')
-const operationButtons = document.querySelectorAll('[data-operation]')
+const numberButtons = document.querySelectorAll("[data-number]");
+const operationButtons = document.querySelectorAll("[data-operation]");
 
-const clearButton = document.querySelector('[data-clear]')
-const equalsButton = document.querySelector('[data-equals]')
+const clearButton = document.querySelector("[data-clear]");
+const equalsButton = document.querySelector("[data-equals]");
 
-const previousOperandTextElement = document.querySelector('[data-previous-operand]')
-const currentOperandTextElement = document.querySelector('[data-current-operand]')
+const previousOperandTextElement = document.querySelector(
+  "[data-previous-operand]"
+);
+const currentOperandTextElement = document.querySelector(
+  "[data-current-operand]"
+);
 
-const calculator = new Calculator(previousOperandTextElement, currentOperandTextElement)
+const calculator = new Calculator(
+  previousOperandTextElement,
+  currentOperandTextElement
+);
 
 // danach: add.EventListener for Buttons (forEach): numbers, operations, clear and equals
-numberButtons.forEach(button => {
-  button.addEventListener('click', () => {
-    calculator.appendNumber(button.innerText)
-    calculator.updateDisplay()    
-  })
-})
+numberButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    calculator.appendNumber(button.innerText);
+    calculator.updateDisplay();
+  });
+});
 
-operationButtons.forEach(button => {
-  button.addEventListener('click', () => {
-    calculator.chooseOperation(button.innerText)
-    calculator.updateDisplay()
-  })
-})
+operationButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    calculator.chooseOperation(button.innerText);
+    calculator.updateDisplay();
+  });
+});
 
-clearButton.addEventListener('click', button => {
-  calculator.clear()
-  calculator.updateDisplay()
-})
+clearButton.addEventListener("click", (button) => {
+  calculator.clear();
+  calculator.updateDisplay();
+});
 
-equalsButton.addEventListener('click', button => {
-  calculator.compute()
-  calculator.updateDisplay()
-})
+equalsButton.addEventListener("click", (button) => {
+  calculator.compute();
+  calculator.updateDisplay();
+});
