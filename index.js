@@ -42,8 +42,6 @@ class Calculator {
     this.operation = undefined;
   }
 
-  delete() {}
-
   appendNumber(number) {
     if (number === "." && this.currentOperand.includes(".")) return;
     // damit verhindere ich, dass ich mehr als einen Punkt machen kann
@@ -63,11 +61,69 @@ class Calculator {
     // jetzt muss ich das im updateDisplay updaten damit es dort in die obere Zeile kommt (this.previousOperandTextElement.innerText = this.previousOperand)
   }
 
-  compute() {}
+  compute() {
+    let computation;
+    const prev = parseFloat(this.previousOperand);
+    const current = parseFloat(this.currentOperand);
+    if (isNaN(prev) || isNaN(current)) return;
+    switch (this.operation) {
+      case "+":
+        computation = prev + current;
+        break;
+      case "-":
+        computation = prev - current;
+        break;
+      case "*":
+        computation = prev * current;
+        break;
+      case "÷":
+        computation = prev / current;
+        break;
+      case "±":
+        computation = "-" + current;
+        break;
+      case "%":
+        computation = current / 100;
+        break;
+      default:
+        return;
+    }
+    this.currentOperand = computation;
+    this.operation = undefined;
+    this.previousOperand = "";
+  }
+
+  getDisplayNumber(number) {
+    const stringNumber = number.toString();
+    const integerDigits = parseFloat(stringNumber.split(".")[0]); // Zahl vor dem Punkt
+    const decimalDigits = stringNumber.split(".")[1];
+    let integerDisplay; // Zahl nach dem Punkt
+    if (isNaN(integerDigits)) {
+      integerDisplay = "";
+    } else {
+      integerDisplay = integerDigits.toLocaleString("en", {
+        maximumFractionDigits: 0,
+      });
+    }
+    if (decimalDigits != null) {
+      // falls Dezimalzahl
+      return `${integerDisplay}.${decimalDigits}`;
+    } else {
+      return integerDisplay;
+    }
+  }
 
   updateDisplay() {
-    this.currentOperandTextElement.innerText = this.currentOperand;
-    this.previousOperandTextElement.innerText = this.previousOperand;
+    this.currentOperandTextElement.innerText = this.getDisplayNumber(
+      this.currentOperand
+    );
+    if (this.operation != null) {
+      this.previousOperandTextElement.innerText = `${this.getDisplayNumber(
+        this.previousOperand
+      )} ${this.operation}`;
+    } else {
+      this.previousOperandTextElement.innerText = ""; // leert die prevOp Zeile
+    }
   }
 }
 
@@ -77,6 +133,8 @@ const operationButtons = document.querySelectorAll("[data-operation]");
 
 const clearButton = document.querySelector("[data-clear]");
 const equalsButton = document.querySelector("[data-equals]");
+const plusMinusButton = document.querySelector("[data-plusMinus]");
+const percentButton = document.querySelector("[data-percent]");
 
 const previousOperandTextElement = document.querySelector(
   "[data-previous-operand]"
@@ -111,6 +169,16 @@ clearButton.addEventListener("click", (button) => {
 });
 
 equalsButton.addEventListener("click", (button) => {
+  calculator.compute();
+  calculator.updateDisplay();
+});
+
+plusMinusButton.addEventListener("click", (button) => {
+  calculator.compute();
+  calculator.updateDisplay();
+});
+
+percentButton.addEventListener("click", (button) => {
   calculator.compute();
   calculator.updateDisplay();
 });

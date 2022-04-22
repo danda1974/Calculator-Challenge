@@ -21,12 +21,12 @@ body {
   align-content: center;
   justify-items: center;
   background-color: black;
-  border: 2px solid red;
+  /* border: 2px solid red; */
 }
 
   .output {
   grid-column: 1 / -1;
-  border: 2px solid blue;
+  /* border: 2px solid blue; */
   height: 100px;
   width: 100%;
   background-color: black;
